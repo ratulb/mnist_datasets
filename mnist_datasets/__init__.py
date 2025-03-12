@@ -1,4 +1,4 @@
-from .mnist_datasets import MNISTLoader
+from .loader import MNISTLoader
 
-__all__ = ["MNISTLoader"]  # Optional but recommended
+__all__ = ["MNISTLoader"]
 
