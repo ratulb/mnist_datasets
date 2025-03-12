@@ -41,4 +41,28 @@ assert len(images) == 60000 and len(labels) == 60000
 test_images, test_labels = loader.load(train=False)
 assert len(test_images) == 10000 and len(test_labels) == 10000
 ```
+### To load data to a specific folder
+  ```python
+loader = MNISTLoader(folder='/tmp')
+```
 
+### To load data from arff file
+  ```python
+images_from_arff, labels_from_arff = MNISTLoader.from_arff()
+```
+> **Note:** Default arff file is `https://www.openml.org/data/download/52667/mnist_784.arff`.
+> MNISTLoader.from_arff() is inherently slow and the implementation is only for educational purpose.
+
+### Load `arff` **test images**/labels and corresponding images/labels via `MNISTLoader(train=False).load()` and verify that they are, in deed, same.
+  ```python
+import numpy as np
+images_from_arff, labels_from_arff = MNISTLoader.from_arff(train=False)
+images, labels = MNISTLoader().load(train=False)
+np.alltrue(images_from_arff == images), np.alltrue(labels_from_arff == labels)
+```
+### Load images and labels from local storage
+  ```python
+images = MNISTLoader.load_images('/tmp/t10k-images-idx3-ubyte')
+labels = MNISTLoader.load_labels('/tmp/t10k-labels-idx1-ubyte')
+assert len(images == 10000) and len(labels == 10000)
+```
