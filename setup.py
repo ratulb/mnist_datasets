@@ -1,10 +1,10 @@
 from setuptools import setup
 
 setup(
-    name="mnist_datasets",  # Package name (pip install mymodule)
+    name="mnist_datasets", 
     version="0.8",
-    packages=["mnist_datasets"],  # The package directory
-    install_requires=['numpy', 'tqdm'],  # Dependencies (empty if none)
+    packages=["mnist_datasets"],  
+    install_requires=['numpy', 'tqdm'],  
     author="Ratul Buragohain",
     author_email="ratul75@hotmail.com",
     description="A Python module to load mnist_datasets from scratch",
