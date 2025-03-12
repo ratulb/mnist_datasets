@@ -1,4 +1,4 @@
-### Load the MNIST (handwritten) dataset from raw source files with a complete from-scratch implementation that is independent of any framework or libraries.
+#### Load the MNIST (handwritten) dataset from raw source files with a complete from-scratch implementation that is independent of any framework or libraries.
 
 #### MNIST dataset for hande-written digits come in four files, namely:
 * [train-images-idx3-ubyte.gz](https://storage.googleapis.com/cvdf-datasets/mnist/train-images-idx3-ubyte.gz) (60000 train images)
@@ -28,3 +28,17 @@
 | 4 - 7     | Number of labels    | Total number of labels in the dataset    |
 | 8 - ***    | Label Data        | Each label(0 - 9) single byte    |
 > **Note:** Each label is single byte (0 to 9)
+
+### Installtion
+* `pip install mnist_datasets`
+
+### Using
+  ```python
+from mnist_datasets import MNISTLoader
+loader = MNISTLoader()
+images, labels = loader.load()
+assert len(images) == 60000 and len(labels) == 60000
+test_images, test_labels = loader.load(train=False)
+assert len(test_images) == 10000 and len(test_labels) == 10000
+```
+
