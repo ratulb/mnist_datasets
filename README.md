@@ -14,8 +14,11 @@
 #### Big-endian binary format image files: (*-images-idx3-ubyte)
 | Offset(Bytes)  | Content  | Description  |
 |-----------|-----------|-----------|
-| 0 - 3    | Magic number    | 2051(0x0803 in hex)    |
-| 4 - 7   | Number of images    | Total number of images in the dataset    |
-| 8 - 11   | Rows(height)    | Should be 28    |
-| 12 - 15   | Columns(width)    | Should be 28    |
-| 16 - ***   | Pixel data    | Each pixel unsigned value in the range (0, 255)    |
+| 0 - 3     | Magic number        | 2051(0x0803 in hex)    |
+| 4 - 7     | Number of images    | Total number of images in the dataset    |
+| 8 - 11    | Rows(height)        | Should be 28    |
+| 12 - 15   | Columns(width)      | Should be 28    |
+| 16 - ***  | Pixel data          | Each pixel unsigned value in the range (0, 255)    |
+
+> **Note:** Each image is stored as 28 by 28 = 784-Byte sequence.
+
