@@ -1,68 +1,91 @@
-#### Load the MNIST (handwritten) dataset from raw source files with a complete from-scratch implementation that is independent of any framework or libraries.
+# MNIST Dataset Loader
 
-#### MNIST dataset for hande-written digits come in four files, namely:
-* [train-images-idx3-ubyte.gz](https://storage.googleapis.com/cvdf-datasets/mnist/train-images-idx3-ubyte.gz) (60000 train images)
-* [train-labels-idx1-ubyte.gz](https://storage.googleapis.com/cvdf-datasets/mnist/train-labels-idx1-ubyte.gz) (60000 train labels)
-* [t10k-images-idx3-ubyte.gz](https://storage.googleapis.com/cvdf-datasets/mnist/t10k-images-idx3-ubyte.gz)  (10000 test images)
-* [t10k-labels-idx1-ubyte.gz](https://storage.googleapis.com/cvdf-datasets/mnist/t10k-labels-idx1-ubyte.gz)  (10000 test labels)
+A **from-scratch** implementation of the MNIST handwritten digits dataset loader, independent of any machine learning framework or external libraries except `numpy`. This implementation enables downloading, extracting, and loading the dataset effortlessly.
 
-#### Note: The [original site](http://yann.lecun.com/exdb/mnist/) for the dataset currently does not contain much information.
+## Features
+- **Pure Python + NumPy**: No dependencies on deep learning frameworks.
+- **Automatic Download & Extraction**: Fetches and prepares the dataset automatically.
+- **Supports Raw MNIST Format**: Loads images and labels directly from binary files.
+- **ARFF Format Support**: Provides an option to load data from an ARFF file.
+- **Custom Storage Location**: Allows specifying a custom directory for storing dataset files.
 
-#### Each of these compressed files, when uncompressed(using gunzip etc), results in one single output file.
+## MNIST Dataset Structure
+The MNIST dataset consists of four binary files:
 
-#### The content storage structure for image and label files are different. Shown below are the structures for image and label files.
-#### Big-endian binary format image files: (*-images-idx3-ubyte)
-| Offset(Bytes)  | Content  | Description  |
-|-----------|-----------|-----------|
-| 0 - 3     | Magic number        | 2051(0x803 in hex)    |
-| 4 - 7     | Number of images    | Total number of images in the dataset    |
-| 8 - 11    | Rows(height)        | Should be 28    |
-| 12 - 15   | Columns(width)      | Should be 28    |
-| 16 - ***  | Pixel data          | Each pixel unsigned value in the range (0, 255)    |
+| File | Description | Count |
+|------|------------|-------|
+| [train-images-idx3-ubyte.gz](https://storage.googleapis.com/cvdf-datasets/mnist/train-images-idx3-ubyte.gz) | Training images | 60,000 |
+| [train-labels-idx1-ubyte.gz](https://storage.googleapis.com/cvdf-datasets/mnist/train-labels-idx1-ubyte.gz) | Training labels | 60,000 |
+| [t10k-images-idx3-ubyte.gz](https://storage.googleapis.com/cvdf-datasets/mnist/t10k-images-idx3-ubyte.gz) | Test images | 10,000 |
+| [t10k-labels-idx1-ubyte.gz](https://storage.googleapis.com/cvdf-datasets/mnist/t10k-labels-idx1-ubyte.gz) | Test labels | 10,000 |
 
-> **Note:** Each image is stored as 28 by 28 = 784-Byte sequence.
-#### Big-endian binary format label files:(*-labels-idx1-ubyte)
-| Offset(Bytes)  | Content  | Description  |
-|-----------|-----------|-----------|
-| 0 - 3     | Magic number        | 2049(0x801 in hex)    |
-| 4 - 7     | Number of labels    | Total number of labels in the dataset    |
-| 8 - ***    | Label Data        | Each label(0 - 9) single byte    |
-> **Note:** Each label is single byte (0 to 9)
+> **Note:** The [original MNIST site](http://yann.lecun.com/exdb/mnist/) does not provide detailed information about the dataset files.
 
-### Installtion
-* `pip install mnist_datasets`
+## File Format Breakdown
+### Image File Format (`*-images-idx3-ubyte`)
+| Offset (Bytes) | Content | Description |
+|---------------|---------|-------------|
+| 0 - 3 | Magic number | 2051 (0x803 in hex) |
+| 4 - 7 | Number of images | Total images in the dataset |
+| 8 - 11 | Rows | Should be 28 |
+| 12 - 15 | Columns | Should be 28 |
+| 16 - *** | Pixel data | Each pixel is an unsigned value (0-255) |
 
-### Using
-  ```python
+### Label File Format (`*-labels-idx1-ubyte`)
+| Offset (Bytes) | Content | Description |
+|---------------|---------|-------------|
+| 0 - 3 | Magic number | 2049 (0x801 in hex) |
+| 4 - 7 | Number of labels | Total labels in the dataset |
+| 8 - *** | Label Data | Each label is a single byte (0-9) |
+
+## Installation
+Install the package via pip:
+```bash
+pip install mnist_datasets
+```
+
+## Usage
+### Load MNIST Dataset
+```python
 from mnist_datasets import MNISTLoader
 loader = MNISTLoader()
 images, labels = loader.load()
 assert len(images) == 60000 and len(labels) == 60000
+
+# Load test dataset
 test_images, test_labels = loader.load(train=False)
 assert len(test_images) == 10000 and len(test_labels) == 10000
 ```
-### To load data to a specific folder
-  ```python
+
+### Specify a Custom Folder
+```python
 loader = MNISTLoader(folder='/tmp')
 ```
 
-### To load data from arff file
-  ```python
+### Load Data from an ARFF File
+```python
 images_from_arff, labels_from_arff = MNISTLoader.from_arff()
 ```
-> **Note:** Default arff file is `https://www.openml.org/data/download/52667/mnist_784.arff`.
-> MNISTLoader.from_arff() is inherently slow and the implementation is only for educational purpose.
+> **Note:** Default ARFF file source is `https://www.openml.org/data/download/52667/mnist_784.arff`.
+> This method is provided for educational purposes and may be slower.
 
-### Load `arff` **test images**/labels and corresponding images/labels via `MNISTLoader(train=False).load()` and verify that they are, in deed, same.
-  ```python
+### Verify Consistency Between ARFF and MNIST Binary Format
+```python
 import numpy as np
 images_from_arff, labels_from_arff = MNISTLoader.from_arff(train=False)
 images, labels = MNISTLoader().load(train=False)
 np.alltrue(images_from_arff == images), np.alltrue(labels_from_arff == labels)
 ```
-### Load images and labels from local storage
-  ```python
+
+### Load Images and Labels from Local Storage
+```python
 images = MNISTLoader.load_images('/tmp/t10k-images-idx3-ubyte')
 labels = MNISTLoader.load_labels('/tmp/t10k-labels-idx1-ubyte')
-assert len(images == 10000) and len(labels == 10000)
+assert len(images) == 10000 and len(labels) == 10000
 ```
+
+---
+**Why use this?** This project is designed for those who want an intuitive and dependency-free way to load the MNIST dataset while understanding its raw format in depth.
+
+**Contributions & Issues**: Found a bug? Want to contribute? Feel free to open an issue or submit a PR!
+
