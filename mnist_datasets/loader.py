@@ -7,15 +7,20 @@ import numpy as np
 from tqdm import tqdm
 
 class MNISTLoader:
-    def __init__(self, base_url="https://azureopendatastorage.blob.core.windows.net/mnist/", folder=None):
+    URL_MAP = {
+        "default": "https://azureopendatastorage.blob.core.windows.net/mnist/",
+        "fashion": "http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/",
+    }
+    def __init__(self, dataset_type="default", base_url=None, folder=None):
         """
         Initialize the MNISTLoader class, set dataset URLs, and trigger downloading and extraction.
 
         Parameters:
-        base_url (str): URL where MNIST dataset files are hosted.
+        dataset_type (str): Whether to use handwritten or fashion mnist dataset to be fetched
+        base_url (str): If the user provides a `base_url`, use it. Otherwise, use predefined URLs.
         folder (str): Folder where dataset files will be stored. If None, uses the current working directory.
         """
-        self.base_url = base_url
+        self.base_url = base_url if base_url else self.URL_MAP.get(dataset_type, self.URL_MAP["default"])
         self.files = ["train-images-idx3-ubyte.gz",
                       "train-labels-idx1-ubyte.gz",
                       "t10k-images-idx3-ubyte.gz",
