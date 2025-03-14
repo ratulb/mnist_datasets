@@ -1,6 +1,6 @@
 # MNIST Dataset Loader
 
-A **from-scratch** implementation of the MNIST handwritten digits dataset loader, independent of any machine learning framework or external libraries except `numpy`. This implementation enables downloading, extracting, and loading the dataset effortlessly.
+An **uniform** interface to the MNIST handwritten digits(default) and MNIST fashion datasets, independent of any machine learning framework or external libraries except `numpy`. This implementation enables downloading, extracting, and loading the dataset effortlessly.
 
 ## Features
 - **Pure Python + NumPy**: No dependencies on deep learning frameworks.
@@ -66,8 +66,8 @@ loader = MNISTLoader(folder='/tmp')
 ```python
 images_from_arff, labels_from_arff = MNISTLoader.from_arff()
 ```
-> **Note:** Default ARFF file source is `https://www.openml.org/data/download/52667/mnist_784.arff`.
-> This method is provided for educational purposes and may be slower.
+> **Note:** Default ARFF file source (for handwritten digits) is `https://www.openml.org/data/download/52667/mnist_784.arff`.
+> This method is provided for educational purposes and extremley slow.
 
 ### Verify Consistency Between ARFF and MNIST Binary Format
 ```python
@@ -83,7 +83,11 @@ images = MNISTLoader.load_images('/tmp/t10k-images-idx3-ubyte')
 labels = MNISTLoader.load_labels('/tmp/t10k-labels-idx1-ubyte')
 assert len(images) == 10000 and len(labels) == 10000
 ```
-
+> **Note:** All of the above examples would work for [fashion MNIST](https://github.com/zalandoresearch/fashion-mnist) with just following tweak:
+```python
+loader = MNISTLoader('fashion')
+```
+ 
 ---
 **Why use this?** This project is designed for those who want an intuitive and dependency-free way to load the MNIST dataset while understanding its raw format in depth.
 
