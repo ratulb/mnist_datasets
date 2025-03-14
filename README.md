@@ -89,7 +89,11 @@ loader = MNISTLoader('fashion')
 ```
  
 ---
-**Why use this?** This project is designed for those who want an intuitive and dependency-free way to load the MNIST dataset while understanding its raw format in depth.
+### Why use this? 
 
-**Contributions & Issues**: Found a bug? Want to contribute? Feel free to open an issue or submit a PR!
+This project is designed for those who want an intuitive and dependency-free way to load the MNIST dataset while understanding its raw format in depth.
+
+### Contributions & Issues: 
+
+Found a bug? Want to contribute? Feel free to open an issue or submit a PR!
 
