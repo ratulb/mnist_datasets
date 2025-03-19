@@ -20,6 +20,7 @@ class MNISTLoader:
         base_url (str): If the user provides a `base_url`, use it. Otherwise, use predefined URLs.
         folder (str): Folder where dataset files will be stored. If None, uses the current working directory.
         """
+        self.dataset_type = dataset_type
         self.base_url = base_url if base_url else self.URL_MAP.get(dataset_type, self.URL_MAP["default"])
         self.files = ["train-images-idx3-ubyte.gz",
                       "train-labels-idx1-ubyte.gz",
@@ -46,7 +47,10 @@ class MNISTLoader:
         # Download each file if not already present
         for file in tqdm(self.files, desc="Downloading MNIST files"):
             url = self.base_url + file  # Construct full file URL
-            file_path = os.path.join(self.folder, file)  # Full local file path
+            if self.dataset_type == 'fashion':
+                file_path = os.path.join(self.folder, 'f' + file)
+            else: 
+                file_path = os.path.join(self.folder, file)  # Full local file path
             if not os.path.exists(file_path):  # Avoid downloading again
                 print(f"Downloading {file}...")
                 urllib.request.urlretrieve(url, file_path)  # Download file
@@ -56,8 +60,12 @@ class MNISTLoader:
         Extracts the downloaded gzip-compressed MNIST files.
         """
         for file in self.files:
-            gz_path = os.path.join(self.folder, file)  # Gzipped file path
-            extracted_path = os.path.join(self.folder, file[:-3])  # Remove .gz extension
+            if self.dataset_type == 'fashion':
+                gz_path = os.path.join(self.folder, 'f' + file)
+                extracted_path = os.path.join(self.folder, 'f' + file[:-3])  # Remove .gz extension
+            else:
+                gz_path = os.path.join(self.folder, file)  # Gzipped file path
+                extracted_path = os.path.join(self.folder, file[:-3])  # Remove .gz extension
 
             # Open the compressed file and save it uncompressed
             with gzip.open(gz_path, 'rb') as f_in, open(extracted_path, 'wb') as f_out:
@@ -84,8 +92,12 @@ class MNISTLoader:
             image_filename = "t10k-images-idx3-ubyte"
 
         # Full file paths for the dataset
-        label_path = os.path.join(self.folder, label_filename)
-        image_path = os.path.join(self.folder, image_filename)
+        if self.dataset_type == 'fashion':
+            label_path = os.path.join(self.folder, 'f' + label_filename)
+            image_path = os.path.join(self.folder, 'f' + image_filename)
+        else: 
+            label_path = os.path.join(self.folder, label_filename)
+            image_path = os.path.join(self.folder, image_filename)
         #labels = load_labels(label_path)
         #images = load_images(image_path)
         # Read and parse label file
