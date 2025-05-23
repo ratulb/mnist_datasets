@@ -89,6 +89,28 @@ loader = MNISTLoader('fashion')
 ```
  
 ---
+### Addtional steps that may be required/helpful
+
+#### Install virtual environment support (Ubuntu/Debian)
+#### You can skip this if `python3 -m venv` works
+
+```bash
+sudo apt update && sudo apt install -y python3-venv
+
+# 1. Create a virtual environment in `.venv` folder
+python3 -m venv .venv
+
+# 2. Activate the virtual environment
+source .venv/bin/activate
+
+# 3. Upgrade pip (recommended)
+pip install --upgrade pip
+
+# 4. Install required pytorch
+pip install torch==2.7.0  --index-url https://download.pytorch.org/whl/cpu
+
+```
+
 ### Why use this? 
 
 This project is designed for those who want an intuitive and dependency-free way to load the MNIST dataset while understanding its raw format in depth.

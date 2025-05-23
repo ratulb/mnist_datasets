@@ -8,4 +8,6 @@ __pycache__/
 *.pyd
 .env
 .DS_Store
-
+.venv/
+data/
+model_weights.npy
