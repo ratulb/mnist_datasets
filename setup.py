@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="mnist_datasets", 
-    version="0.13",
+    version="0.14",
     packages=["mnist_datasets"],  
     install_requires=['numpy', 'tqdm'],  
     author="Ratul Buragohain",
@@ -16,6 +16,6 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires=">=3.10",
+    python_requires=">=3.10, <3.13",
 )
 
