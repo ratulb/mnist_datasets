@@ -6,12 +6,16 @@ import struct
 import numpy as np
 from tqdm import tqdm
 
+def log(*args, silent=False, **kwargs):
+    if not silent:
+        print(*args, **kwargs)
+
 class MNISTLoader:
     URL_MAP = {
         "default": "https://azureopendatastorage.blob.core.windows.net/mnist/",
         "fashion": "http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/",
     }
-    def __init__(self, dataset_type="default", base_url=None, folder=None):
+    def __init__(self, dataset_type="default", base_url=None, folder=None, silent=False):
         """
         Initialize the MNISTLoader class, set dataset URLs, and trigger downloading and extraction.
 
@@ -27,6 +31,7 @@ class MNISTLoader:
                       "t10k-images-idx3-ubyte.gz",
                       "t10k-labels-idx1-ubyte.gz"]
         self.folder = folder
+        self.silent = silent
         self.download()
         self.extract()
 
@@ -45,14 +50,14 @@ class MNISTLoader:
             os.makedirs(self.folder)
 
         # Download each file if not already present
-        for file in tqdm(self.files, desc="Downloading MNIST files"):
+        for file in tqdm(self.files, desc="Downloading MNIST files", disable=self.silent):
             url = self.base_url + file  # Construct full file URL
             if self.dataset_type == 'fashion':
                 file_path = os.path.join(self.folder, 'f' + file)
             else: 
                 file_path = os.path.join(self.folder, file)  # Full local file path
             if not os.path.exists(file_path):  # Avoid downloading again
-                print(f"Downloading {file}...")
+                log(f"Downloading {file}...", silent=self.silent)
                 urllib.request.urlretrieve(url, file_path)  # Download file
 
     def extract(self):
@@ -185,7 +190,7 @@ class MNISTLoader:
         return images # Returns a NumPy array of size 28x28 (each pixel is 0-255)
 
     @staticmethod
-    def from_arff(base_url='https://www.openml.org/data/download/52667/mnist_784.arff', folder=None, train=True):
+    def from_arff(base_url='https://www.openml.org/data/download/52667/mnist_784.arff', folder=None, train=True, silent=False):
         import numpy as np
         from scipy.io import arff
 
@@ -201,9 +206,9 @@ class MNISTLoader:
         file_path = os.path.join(folder, 'mnist_784.arff')  # Full local file path
 
         if not os.path.exists(file_path):  # Avoid downloading again
-            print("Downloading mnist_784.arff...")
+            log("Downloading mnist_784.arff...", silent=silent)
             urllib.request.urlretrieve(url, file_path) # Download file
-        print("Processing mnist_784.arff...")
+        log("Processing mnist_784.arff...", silent=silent)
         data, meta = arff.loadarff(file_path)
 
         # feature_names -> ('pixel1', 'pixel2', 'pixel3', ...., 'pixel782', 'pixel783', 'pixel784', 'class')
@@ -215,12 +220,12 @@ class MNISTLoader:
 
         col_names = data.dtype.names
         images_and_labels = np.empty((len(data), len(col_names)), dtype=np.uint8)
-        for i, row in tqdm(enumerate(data), total=len(data), desc="Processing Data", unit="rows"):
+        for i, row in tqdm(enumerate(data), total=len(data), desc="Processing Data", unit="rows", disable=silent):
             images_and_labels[i] = [row[col] for col in col_names]
         images = images_and_labels[:, 0:784]
         labels = images_and_labels[:, -1]
 
-        print("Done...")
+        log("Done...", silent=silent)
         return images, labels
 
 
