@@ -1,0 +1,89 @@
+:root {
+  --bg-gradient: linear-gradient(120deg, #0650b1, rgb(0, 128, 0));
+}
+
+html, body {
+  background: var(--bg-gradient) !important;
+  background-attachment: fixed !important;
+  min-height: 100vh;
+}
+
+.wrapper,
+.page-content,
+.site-header,
+.site-footer {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.site-title,
+.site-title:visited,
+.site-nav a,
+.site-nav a:visited,
+.footer-heading,
+.footer-col-wrapper,
+.contact-list,
+.social-media-list a,
+.page-heading {
+  color: #d4d4d8 !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3) !important;
+}
+
+.site-title:hover,
+.site-nav a:hover {
+  color: #ffffff !important;
+}
+
+.post,
+.post-content {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 1.5rem 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.page-content {
+  padding: 1.5rem 0;
+}
+
+pre, code {
+  background-color: #161B22 !important;
+  color: #E6EDF3 !important;
+  border: none !important;
+}
+
+.highlight {
+  background: #161B22 !important;
+  border-radius: 4px;
+}
+
+code {
+  padding: 0.15em 0.4em;
+  font-size: 0.9em;
+}
+
+pre code {
+  padding: 1rem;
+  display: block;
+  overflow-x: auto;
+}
+
+table {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 8px;
+}
+
+th, td {
+  padding: 0.5rem 1rem;
+  border-color: #ddd;
+}
+
+.post-content a {
+  color: #0650b1;
+  text-decoration: underline;
+}
+
+.post-content a:hover {
+  color: rgb(0, 128, 0);
+}

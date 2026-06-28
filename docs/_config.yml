@@ -1,0 +1,17 @@
+title: "MNIST Dataset Loader"
+description: "A uniform, dependency-light interface to MNIST and Fashion-MNIST"
+author: rbsomeg
+baseurl: "/mnist_datasets"
+url: "https://ratulb.github.io"
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+show_excerpts: true
+header_pages: []
+
+exclude:
+  - README.md
+  - vendor/
+  - Gemfile
+  - Gemfile.lock

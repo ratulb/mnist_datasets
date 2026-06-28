@@ -1,4 +1,7 @@
-# MNIST Dataset Loader
+---
+layout: page
+title: MNIST Dataset Loader
+---
 
 **A uniform, dependency-light interface to MNIST and Fashion-MNIST.**
 
@@ -86,8 +89,6 @@ loader = MNISTLoader(folder='/tmp/mnist_data')
 images, labels = MNISTLoader.from_arff(train=False)
 ```
 
-This is extremely slow — included for understanding the data format.
-
 ### Verify ARFF vs binary consistency
 
 ```python
@@ -142,4 +143,4 @@ labels = MNISTLoader.load_labels('/tmp/t10k-labels-idx1-ubyte')
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+MIT.
