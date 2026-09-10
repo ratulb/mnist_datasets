@@ -23,7 +23,7 @@ Pure Python + NumPy — no PyTorch, no TensorFlow, no framework lock-in. Downloa
 pip install mnist_datasets
 ```
 
-Requires Python 3.10 – 3.12.
+Requires Python 3.10+.
 
 ---
 

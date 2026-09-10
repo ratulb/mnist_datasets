@@ -1,0 +1,31 @@
+name: Publish to PyPI
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Pure-Python wheel: no pixi/mojo/auditwheel needed (cf. mbpe).
+      # Build on the newest claimed Python to prove the ceiling.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Build sdist + wheel
+        run: |
+          pip install build
+          python -m build
+
+      - name: Smoke-test the wheel
+        run: |
+          pip install dist/*.whl
+          python -c "from mnist_datasets import MNISTLoader; print('wheel OK')"
+
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
